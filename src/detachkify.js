@@ -1,5 +1,5 @@
-var tools = require("browserify-transform-tools");
-var path = require("path");
+var tools = require('browserify-transform-tools');
+var path = require('path');
 
 // Transform function
 function transform(args, opts, cb) {
@@ -13,18 +13,23 @@ function transform(args, opts, cb) {
     var newRequire = path.relative(path.dirname(opts.file), path.join(opts.config.relativeTo, req));
     newRequire = newRequire.replace(/\\/g, '/');
 
-    if (opts.config.verbose) {
-        console.log(args, newRequire);
+    // in case the file is located in the current directory or a directory within the current directory, make sure to prepend './'
+    if (newRequire[0] !== '.') {
+        newRequire = './' + newRequire;
     }
 
-    return cb(null, "require(\"" + newRequire + "\")");
+    if (opts.config.verbose) {
+        console.log(args[0], newRequire);
+    }
+
+    return cb(null, 'require("' + newRequire + '")');
 }
 
 // Transform options
-var _opts = {
+var transformOpts = {
     evaluateArguments: true,
     jsFilesOnly: true
 };
 
 // Export transform
-module.exports = tools.makeRequireTransform("detachkify", _opts, transform);
+module.exports = tools.makeRequireTransform('detachkify', transformOpts, transform);
