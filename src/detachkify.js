@@ -1,19 +1,17 @@
 var tools = require("browserify-transform-tools");
-var fs = require("fs");
 var path = require("path");
 
 // Transform function
 function transform(args, opts, cb) {
-    opts.config.relativeTo = opts.config.relativeTo || process.cwd();
-
     var req = args[0];
 
-    console.log(req);
+    if (req[0] !== '/') {
+        return cb();
+    }
 
-        //remap
-        //    return cb(null, "require(\"" + newRequire + "\")");
-    // Default behaviour - just return original
-    return cb();
+    opts.config.relativeTo = opts.config.relativeTo || process.cwd();
+    var newRequire = path.relative(path.dirname(opts.file), path.join(opts.config.relativeTo, req));
+    return cb(null, "require(\"" + newRequire + "\")");
 }
 
 // Transform options
