@@ -1,7 +1,7 @@
 {
   "name": "detachkify",
   "version": "0.0.4",
-  "description": "remove the dots",
+  "description": "allow usage of absolute paths in require statements",
   "main": "src/detachkify.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
