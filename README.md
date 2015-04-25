@@ -18,7 +18,7 @@ b.transform(detachkify, detachkifyConfig);
 ```
 
 ## grunt-browserify
-```json
+```javascript
 browserify: {
     app: {
         src: ['src/app.js'],
