@@ -1,12 +1,17 @@
 var tools = require('browserify-transform-tools');
+var startsWith = require('starts-with');
 var path = require('path');
 
 // Transform function
 function transform(args, opts, cb) {
     var req = args[0];
+    var prefix = opts.config.prefix || '/';
 
-    if (req[0] !== '/') {
-        return cb();
+    if (!startsWith(req, prefix)) {
+      return cb();
+    }
+    if (prefix !== '/') {
+      req = req.replace(opts.config.prefix, '');
     }
 
     opts.config.relativeTo = opts.config.relativeTo || process.cwd();
